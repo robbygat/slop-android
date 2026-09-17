@@ -1,0 +1,37 @@
+name: Publish public Android download
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Fetch and verify the public APK
+        run: |
+          mkdir site
+          curl --fail --location --retry 3 --output site/Slop-3.7.5-build-2051-universal.apk https://github.com/robbygat/slop-web/releases/download/android-3.7.5-build-2051/Slop-3.7.5-build-2051-universal.apk
+          echo '772d9346f44cf050b6356f0205bf75eb903ac4787dd07d3f3e442d5461bedb67  site/Slop-3.7.5-build-2051-universal.apk' | sha256sum --check
+          cp README.md site/index.md
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+      - name: Publish
+        id: deployment
+        uses: actions/deploy-pages@v5
