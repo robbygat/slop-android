@@ -25,8 +25,8 @@ jobs:
       - name: Fetch and verify the public APK
         run: |
           mkdir site
-          curl --fail --location --retry 3 --output site/Slop-3.7.5-build-2051-universal.apk https://github.com/robbygat/slop-web/releases/download/android-3.7.5-build-2051/Slop-3.7.5-build-2051-universal.apk
-          echo '772d9346f44cf050b6356f0205bf75eb903ac4787dd07d3f3e442d5461bedb67  site/Slop-3.7.5-build-2051-universal.apk' | sha256sum --check
+          curl --fail --location --retry 3 --output site/Slop-3.7.6-build-2052-universal.apk https://github.com/robbygat/slop-web/releases/download/android-3.7.6-build-2052/Slop-3.7.6-build-2052-universal.apk
+          echo '013b0da7000459c3b6a8fee180d2c06bd069bc1e65cdd1ed58170c7693f33a7a  site/Slop-3.7.6-build-2052-universal.apk' | sha256sum --check
           cp README.md site/index.md
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
